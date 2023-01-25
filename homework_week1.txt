@@ -1,0 +1,52 @@
+Q1
+docker build --help
+--iidfile string          Write the image ID to the file
+
+Q2
+docker run -it python:3.9 bash
+pip list
+Package    Version
+---------- -------
+pip        22.0.4
+setuptools 58.1.0
+wheel      0.38.4
+
+3 packages
+
+Q3
+SELECT count(*) 
+FROM green_taxi_data
+WHERE lpep_pickup_datetime::date='2019-01-15'
+	AND lpep_dropoff_datetime::date='2019-01-15';
+	
+Q4
+SELECT lpep_pickup_datetime::date AS pickup_day, 
+	max(trip_distance) AS max_trip_distance
+FROM green_taxi_data
+GROUP BY pickup_day
+ORDER BY max_trip_distance DESC
+LIMIT 1;
+
+Q5
+SELECT count(*)
+FROM green_taxi_data
+WHERE passenger_count=2 
+	AND lpep_pickup_datetime::date='2019-01-01';
+	
+SELECT count(*)
+FROM green_taxi_data
+WHERE passenger_count=3 
+	AND lpep_pickup_datetime::date='2019-01-01';
+	
+Q6
+SELECT puz."Zone" AS pickup_zone,
+	doz."Zone" AS dropoff_zone, 
+	"tip_amount"
+FROM green_taxi_data 
+JOIN zones AS puz
+ON green_taxi_data."PULocationID" = puz."LocationID"
+JOIN zones AS doz
+ON green_taxi_data."DOLocationID" = doz."LocationID"
+WHERE puz."Zone" = 'Astoria'
+ORDER BY tip_amount DESC
+LIMIT 1;
